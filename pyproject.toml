@@ -8,5 +8,12 @@ dependencies = [
     "mcp[cli]>=1.5.0",
 ]
 
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [project.scripts]
 github-cli = "github_cli.main:main"
