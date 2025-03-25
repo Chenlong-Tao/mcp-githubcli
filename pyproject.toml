@@ -7,3 +7,6 @@ requires-python = ">=3.10"
 dependencies = [
     "mcp[cli]>=1.5.0",
 ]
+
+[project.scripts]
+github-cli = "github_cli.main:main"
