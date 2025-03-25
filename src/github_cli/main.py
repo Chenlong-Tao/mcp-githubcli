@@ -144,6 +144,31 @@ def pr_comment(pr: int, repo: str, body: str) -> str:
     except Exception as e:
         return f"错误: 添加PR评论时发生异常: {str(e)}"
 
+@mcp.tool()
+def pr_approve(pr: int, repo: str, body: Optional[str] = None) -> str:
+    """批准特定PR"""
+    try:
+        # 确保pr参数是字符串
+        pr_str = str(pr)
+        
+        # 构建命令参数
+        args = ["pr", "review", pr_str, "--repo", repo, "--approve"]
+        
+        # 如果提供了评论内容，添加到命令中
+        if body:
+            args.extend(["--body", body])
+        
+        # 执行命令
+        result = run_gh_command(args)
+        
+        # 检查是否有错误
+        if result.startswith("错误:"):
+            return result
+        
+        return f"成功批准PR #{pr_str}" + (f" 并添加评论" if body else "")
+    except Exception as e:
+        return f"错误: 批准PR时发生异常: {str(e)}"
+
 # Gist相关工具
 @mcp.tool()
 def gist_list() -> str:
