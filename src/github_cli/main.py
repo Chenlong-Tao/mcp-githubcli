@@ -126,6 +126,24 @@ def pr_create(repo: str, title: str, body: str, base: str = "main") -> str:
     """创建新PR"""
     return run_gh_command(["pr", "create", "--repo", repo, "--title", title, "--body", body, "--base", base])
 
+@mcp.tool()
+def pr_comment(pr: int, repo: str, body: str) -> str:
+    """对特定PR添加评论"""
+    try:
+        # 确保pr参数是字符串
+        pr_str = str(pr)
+        
+        # 使用GitHub CLI的pr comment命令
+        result = run_gh_command(["pr", "comment", pr_str, "--repo", repo, "--body", body])
+        
+        # 检查是否有错误
+        if result.startswith("错误:"):
+            return result
+        
+        return f"成功添加评论到PR #{pr_str}"
+    except Exception as e:
+        return f"错误: 添加PR评论时发生异常: {str(e)}"
+
 # Gist相关工具
 @mcp.tool()
 def gist_list() -> str:
